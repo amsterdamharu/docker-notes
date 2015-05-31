@@ -161,5 +161,12 @@ To prevent too many writes to my ssd harddrive my /var/log is mounted as tmpfs a
 
         mkdir /var/log/squid
         chown squid:squid /var/log/squid
+        
+Squid container
+---------------
+
+There is a squid container dockerfile in this repo (under squid) but this container uses a squid proxy on the host to install in the first place. If you can get ubuntu packeges installed without a proxy then you can use the Dockerfile to create a squid container and use that one.
+
+This container will save caches to disk so it could speed up creating the other containers.
 
 
