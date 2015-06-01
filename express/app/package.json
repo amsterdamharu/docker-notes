@@ -1,0 +1,12 @@
+{
+  "name": "static-express",
+  "description": "start static express server",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node-inspector --save-live-edit & node --debug /app/server.js"
+  },
+  "dependencies": {
+    "express": "3.x"
+  }
+}
