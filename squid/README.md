@@ -3,6 +3,11 @@ Docker squid cache proxy
 
 This is a container running a squid proxy that will connect to the Astrill proxy and save caches to disk on the host.
 
+If you do not want the squid proxy to connect to another proxy you can comment out the following lines from the squid.conf:
+
+        cache_peer localhost   parent  3213 0 no-query default
+        never_direct allow all  
+
 Cache files are saved in ./cachedir logs are in ./log and the configuration file is in ./squid.conf (when you run it according to the instructions)
 
 Installing
