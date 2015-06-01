@@ -1,3 +1,5 @@
 /squid/cachedir
 /squid/log
+/mongodb/db
+/mongodb/log
 node_modules
