@@ -1,7 +1,7 @@
 Docker node dev
 ===============
 
-This is a container based on google/nodejs-runtime, add a package.json where you can install packes on the host with npm install. The program to run is defined in scripts:
+This is a container based on google/nodejs-runtime. The program to run is defined in scripts in the package.json:
 
         "scripts": {
           "start": "node-inspector --save-live-edit & node --debug /app/server.js"
@@ -9,7 +9,7 @@ This is a container based on google/nodejs-runtime, add a package.json where you
 
 It contains node, grunt and node-inspector.
 
-For an example check the static-express directory
+For an example check the express directory
 
 Installing
 ----------
@@ -24,7 +24,7 @@ Run the container
 In the current directory (not in build) run the following command (assuming you named the image node:dev):
 
         docker run -t --rm \
-         -v $(pwd)/server:/app \
+         -v $(pwd)/app:/app \
          -p 80:8888 \
          -p 8080:8080 \
          -p 5858:5858 \

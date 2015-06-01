@@ -10,7 +10,7 @@ In your package.json add "scripts.start" and have that contain the command to ru
 
 On the host run an nmp install if your application needs packages installed (like express in the example).
 
-If the host does not have npm you can build an image based off the node dev image (see build directory). Copy package.json to build first.
+If the host does not have npm you can build an image based off the node dev image (see build directory). Copy package.json to build directory first.
         
 Run the container
 -----------------
@@ -26,4 +26,4 @@ In the current directory (not in build) run the following command (assuming you 
          --name myapp \
          node:dev
          
-
+You can see the application running at http://localhost or http://127.0.0.1, use Chrome to debug the application.
