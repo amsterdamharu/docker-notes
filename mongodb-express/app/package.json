@@ -1,0 +1,12 @@
+{
+  "name": "mongo-express",
+  "description": "Run mongo-express",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node ./node_modules/mongo-express/app.js"
+  },
+  "dependencies": {
+    "mongo-express": "*"
+  }
+}

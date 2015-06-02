@@ -2,4 +2,6 @@
 /squid/log
 /mongodb/db
 /mongodb/log
+/redis/db
+/redis/log
 node_modules

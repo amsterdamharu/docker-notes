@@ -15,7 +15,8 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 && \
     echo "mongodb-org hold" | dpkg --set-selections && echo "mongodb-org-server hold" | dpkg --set-selections && \
     echo "mongodb-org-shell hold" | dpkg --set-selections && \
     echo "mongodb-org-mongos hold" | dpkg --set-selections && \
-    echo "mongodb-org-tools hold" | dpkg --set-selections
+    echo "mongodb-org-tools hold" | dpkg --set-selections && \
+    apt-get clean
 
 VOLUME /data/db
 

@@ -21,6 +21,17 @@ Go to the build directory and run:
 Run the container
 -----------------
 
+You may need to npm install some packages that your application depends on. You can do so by starting the container interactively and run npm in the container, the files are saved on the host in the .app directory.
+
+        docker run -it --rm \
+         -v $(pwd)/app:/app \
+         node:dev bash
+
+In the container you can run npm, your application is in /app so you can run:
+
+         cd /app
+         npm install --verbose
+
 In the current directory (not in build) run the following command (assuming you named the image node:dev):
 
         docker run -t --rm \
