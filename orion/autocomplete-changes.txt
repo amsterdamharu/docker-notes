@@ -1,0 +1,90 @@
+notes on eclipse changes:
+
+Download orion http://download.eclipse.org/orion/drops/S20150504-1254/index.html
+
+extract in ~/temp/orion after making the changes you can compile again to ~/orion using the following command:
+
+rm ../../orion/eclipse/plugins/org.eclipse.orion.client.javascript_1.0.0.v20150504-1644.jar; jar cf ../../orion/eclipse/plugins/org.eclipse.orion.client.javascript_1.0.0.v20150504-1644.jar .
+
+Changes:
+
+in javascript/handlers/ternAssisthandler.js
+  function sortProposals the if statement checks if file is the current open file
+  just check if it is a value starting with /file/
+      	        if(/^\/file\//.test(_o)) {
+  ... later in that file
+    function computeProposals(ternserver, args, callback) {
+		console.log('I guess this is completions',args,ternserver);
+        if(ternserver) {
+			loadFilesInTern(args.meta.location,ternserver)
+			.then(function(){
+				console.log('ternserver is now:',ternserver);
+		       ternserver.request({
+		           query: {
+		           type: "completions", 
+  ...add this just before computeProposals
+	function getFile(url){
+		return new Promise(function(resolve,reject){
+	        var xhr = new XMLHttpRequest();
+			xhr.open('GET',url);
+			xhr.addEventListener("load", function(e){
+				//@todo: have to check something I dont think this should be called on a 404 but it is
+					console.log('ok, done:',xhr.responseURL);
+					if(xhr.status!==200){
+						reject('file not found:',xhr.responseURL);
+						return;
+					}
+					resolve(xhr.responseText);
+				}, false);
+			xhr.addEventListener("error", function(e){
+					console.log('an error:',e);
+					reject(e);
+				}, false);
+			xhr.send();
+		});
+	}
+    var loadFilesInTern = (function(){
+		var loadedConfigs = [];
+		var currentConfig = '';
+		function loadJsFileIntoTernServer(fileName,ternserver){
+			return getFile(fileName)
+			.then(function resolve(val){
+				ternserver.addFile(fileName,val);
+			},function reject(err){
+				console.log('an error:',fileName);
+				return true;
+			});
+		}
+		return function(location,ternserver){
+			var p = new Promise(function(resolve){resolve(true);});
+			  rootPath = location.split('/').slice(0,4).join('/');
+			console.log('got rootpath, trying to get tern-config from:',rootPath+'/.tern-config');
+			return p
+			.then(function(){
+				if(!loadedConfigs[rootPath]){
+					return getFile(rootPath+'/.tern-config');
+				}else {
+					return loadedConfigs[rootPath];
+				}
+			})
+			.then(function(config){
+				loadedConfigs[rootPath]=config;
+				if(config===currentConfig){
+					return;
+				};
+        ternserver.reset();
+				currentConfig = config;
+				var settings = JSON.parse(config);
+				var promises = [];
+				settings.loadEagerly.forEach(function(fileName){
+					promises.push(loadJsFileIntoTernServer(rootPath + '/' + fileName,ternserver));
+				});
+				return Promise.all(promises);
+			})
+			.then(null,function reject(e){
+				console.log('an error:',e);
+				return true;
+			});
+			p.resolve('start');
+		};
+	}());

@@ -1,3 +1,4 @@
-var atest = {
-  hello:"world"	
+var test = {
+  hello:"world",
+  number:22
 };
