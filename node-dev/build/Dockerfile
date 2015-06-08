@@ -24,8 +24,10 @@ RUN \
     make && \
     make install && \
     cd ../../ && \
-    rm -rf node && \
-    npm install -g --verbose node-inspector grunt && \
+    rm -rf node
+    
+RUN \
+    npm install -g node-inspector grunt-cli nodemon gulp && \
     npm cache clear
     
 # Set instructions on build if you want to include your code in the image

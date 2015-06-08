@@ -10,8 +10,15 @@
     "express": "*",
     "body-parser": "*",
     "cookie-parser": "*",
-    "express-session" : "*",
-    "passport" : "*",
-    "passport-local" : "*"
-  }
+    "express-session": "*",
+    "mongodb": "*",
+    "bcryptjs":"*",
+    "connect-redis","*",
+    "passport": "*",
+    "passport-local": "*"
+  },
+  "main": "app.js",
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC"
 }
