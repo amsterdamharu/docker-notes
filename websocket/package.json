@@ -1,0 +1,33 @@
+{
+  "author": "",
+  "name": "ws_examples",
+  "description": "using the websocket examples",
+  "version": "0.7.2",
+  "license": "MIT",
+  "keywords": [
+    "Hixie",
+    "HyBi",
+    "Push",
+    "RFC-6455",
+    "WebSocket",
+    "WebSockets",
+    "real-time"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/websockets/ws.git"
+  },
+  "scripts": {
+    "start": "node examples/serverstats-express_3/server.js"
+  },
+  "dependencies": {},
+  "optionalDependencies": {},
+  "devDependencies": {},
+  "browser": "./lib/browser.js",
+  "component": {
+    "scripts": {
+      "ws/index.js": "./lib/browser.js"
+    }
+  },
+  "gypfile": true
+}

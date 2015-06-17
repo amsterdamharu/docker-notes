@@ -40,7 +40,7 @@ docker run -d \
          -u 1000 \
          -p 9999:9999 \
          --name orion \
-         centos:dev \
+         orion:dev \
          eclipse/orion
 
 # start node:

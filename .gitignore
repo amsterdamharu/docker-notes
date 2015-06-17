@@ -4,5 +4,6 @@
 /mongodb/log
 /redis/db
 /redis/log
+/websocket/app
 node_modules
 /mongodb-express/app/*
