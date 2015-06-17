@@ -1,7 +1,7 @@
 Docker websocket
 ================
 
-Test websocket
+Test websocket, works with express 4 as well but package.json in /app/examples/serverstats-express_3/ uses express 3, you could change it before running npm install
 
 Installing
 ----------

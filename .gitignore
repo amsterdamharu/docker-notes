@@ -7,3 +7,5 @@
 /websocket/app
 node_modules
 /mongodb-express/app/*
+/rabbitmq/build/rabbitmq-server_3.5.3-1_all.deb
+/rabbitmq/log
