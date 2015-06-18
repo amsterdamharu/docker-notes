@@ -1,0 +1,12 @@
+{
+  "name": "amqp_examples",
+  "description": "amqplib library with examples",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "echo 'You should start this with a bash and run the examples.'"
+  },
+  "dependencies": {
+    "amqplib": "*"
+  }
+}

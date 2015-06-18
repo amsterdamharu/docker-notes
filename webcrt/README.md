@@ -31,7 +31,7 @@ The following commands will install dependencies using the squid proxy:
 Run the container
 -----------------
 
-In the current directory (not in build) run the following command:
+In the current directory (webcrt) run the following command:
 
         docker run -d \
          -v $(pwd)/app:/app \
