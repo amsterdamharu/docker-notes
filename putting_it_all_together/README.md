@@ -60,12 +60,12 @@ Run the container
          --link mongodb:mongodb \
          -e "REDIS_HOST=redis" \
          --link redis:redis \
-         --name passport \
+         --name app \
          node:dev bash
 
 
 
-start mongodb-express
+#start mongodb-express (currently not working, need edit the config.js)
         docker run -it --rm \
          -v $(pwd)/../mongodb-express/app:/app \
          -v $(pwd)/../mongodb-express/config.js:/app/config.js \
