@@ -1,0 +1,24 @@
+{
+  "name": "passport-example",
+  "description": "Use passport to authenticate users",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "*",
+    "body-parser": "*",
+    "cookie-parser": "*",
+    "express-session": "*",
+    "mongodb": "*",
+    "bcryptjs":"*",
+    "connect-redis","*",
+    "passport": "*",
+    "passport-local": "*"
+  },
+  "main": "app.js",
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC"
+}
