@@ -3,12 +3,16 @@ Docker multiple images examples
 
 This project has examples using rabitmq, mongodb, redis and orion. 
 TODO:
-- Need document the dep manager
-- Have dep data served by server and change 
-- Remove db deps from authImplementor
-- Need tests (unit and integration)
-- Need rabbitmq
+- Make db a standalone program that consumes a queue and publishes to a channel
+- Make authImplementor publish to a channel instead of calling db directly
+- See next: channelToPromise should be a constructor and init will create and return an instance
+- Instead of authImplementor publish to a channel have it call channelToPromise. It will publish to a chanel and consume a que. When answer comes it can resolve a promise. (Configurable how many requests it will remember)
+- If channelToPromise times out or gets too full it should publish to log with either error or warning messgae
+- Figure out why I should close on SIGINT as in the exampe. Not doing this does not show open connections in rabbitmq admin but doing it does not close the application on control + c. Uncought exceptions and kill do not trigger the event either.
 - Make pubsub to promise
+- Need document the dep manager (initializer.js)
+- Have dep data served by server and change initializer.js 
+- Need tests (unit and integration)
 
 Installing
 ----------
@@ -47,6 +51,9 @@ Run the container
          --name orion \
          orion:dev \
          eclipse/orion
+# start rabbitmq
+        docker start rabbitmq
+        docker exec -d rabbitmq rabbitmq-server
 
 # start node:
         docker run -it --rm \
@@ -55,11 +62,9 @@ Run the container
          -p 80:80 \
          -p 8080:8080 \
          -p 5858:5858 \
-         -e "MONGODB_HOST=mongodb" \
-         -e "MONGODB_PORT=27017" \
          --link mongodb:mongodb \
-         -e "REDIS_HOST=redis" \
          --link redis:redis \
+         --link rabbitmq:rabbitmq \
          --name app \
          node:dev bash
 

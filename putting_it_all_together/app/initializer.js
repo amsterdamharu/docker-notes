@@ -1,9 +1,13 @@
-var Config = function Config(){
+/* globals console: false */
+/* globals module: false */
+/* globals require: false */
+var Config = function(){
+  var USER_COLLECTION = 'users';
   this.app = {
     init:false,
     config:{
     },
-    deps:['authProvider']
+    deps:['authProvider','rabbitQue','rabbitChannel']
   };
   this.authProvider = {
     init:true,
@@ -22,12 +26,34 @@ var Config = function Config(){
     init:true,
     require:'./authImplementor.js',
     config:{
+      USER_COLLECTION:USER_COLLECTION
+    },
+    deps:['bcrypt','db']
+  };
+  this.db ={
+    init:true,
+    require:'./db.js',
+    config:{
       MONGODB_HOST:'mongodb',
       MONGODB_PORT:'27017',
       MONGODB_DB:'app'
     },
-    deps:['bcrypt']
-  }
+    deps:['mongodb']
+  };
+  this.rabbitQue ={
+    init:true,
+    require:'./rabbitQue.js',
+    config:{
+    },
+    deps:['rabbitChannel']
+  };
+  this.rabbitChannel ={
+    init:true,
+    require:'./rabbitChannel.js',
+    config:{
+    },
+    deps:['amqplib']
+  };
   this.express={
     init:false,
     require:'express',
@@ -76,6 +102,18 @@ var Config = function Config(){
     config:{},
     deps:[]    
   };
+  this.mongodb={
+    init:false,
+    require:'mongodb',
+    config:{},
+    deps:[]    
+  };
+  this.amqplib={
+    init:false,
+    require:'amqplib',
+    config:{},
+    deps:[]
+  };
 };
 
 //@todo: put in a seperate tools file
@@ -99,8 +137,8 @@ function getByKeyArray(keys,obj){
   return {
     error:false,
     item:ret
-  }
-};
+  };
+}
 function getByKey(keyString,obj){
   keyString = keyString || '';
   var keyArray = (keyString==='')?[]:keyString.split('.');
@@ -116,7 +154,7 @@ function getByKeyThrow(keyString,obj){
 
 function getConfig(){
   //@todo: return the config from a https server using basic auth
-  return new Promise(function(resolve,reject){
+  return new Promise(function(resolve){
     resolve(new Config());
   });
 }

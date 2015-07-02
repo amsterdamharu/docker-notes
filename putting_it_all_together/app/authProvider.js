@@ -1,8 +1,8 @@
-console.log('including authprovider')
+/* globals console: false */
+/* globals module: false */
 //@todo: only set up passport, leave the routes to a route dep that depends on authImplementor
 function init(express,passport,passportLocal,bodyParser,cookieParser,session,rds,
     authImplementor,config){
-  console.log('init of authprovider')
   var p = new Promise(
     function(resolve,reject){
       try{
@@ -28,7 +28,6 @@ function init(express,passport,passportLocal,bodyParser,cookieParser,session,rds
     		  passport.use(new passportLocal.Strategy(authImplementor.verifyCredentials));
           passport.serializeUser(authImplementor.serializeUser);
           passport.deserializeUser(authImplementor.deserializeUser);
-          console.log('setting up an app post ...')
           app.post('/login',passport.authenticate('local'),function(req,res){
             res.redirect('/');
           });
@@ -42,11 +41,9 @@ function init(express,passport,passportLocal,bodyParser,cookieParser,session,rds
           	var user = req.user && req.user.name;
           	res.send('---'+user+'--- <a href="/logout>logout</a>');
           });
-          
           app.listen(config.PORT, function() {
-          	console.log('http://localhost:'+config.PORT);
+          	console.log('Up and runing at http://localhost:'+config.PORT);
           });
-          console.log('is it the order....')
       		resolve(passport);
         }catch(err){
           reject(err);
