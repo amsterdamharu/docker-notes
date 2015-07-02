@@ -17,6 +17,8 @@ TODO:
 Installing
 ----------
 
+(TODO: how to install dependencies in node_modules)
+
 No installation required, build all the images with the Dockerfile provided. Images needed are
 
 - mongodb

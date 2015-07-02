@@ -6,8 +6,9 @@ var Config = function(){
   this.app = {
     init:false,
     config:{
+      exchange:'userCollection'      
     },
-    deps:['authProvider','rabbitQue','rabbitChannel']
+    deps:['authProvider','userQue']
   };
   this.authProvider = {
     init:true,
@@ -40,17 +41,26 @@ var Config = function(){
     },
     deps:['mongodb']
   };
-  this.rabbitQue ={
+  this.userQue ={
     init:true,
     require:'./rabbitQue.js',
     config:{
+      exchange:'userCollection',
+      queOptions:{exclusive:false},
+      topics:['warning','error']
     },
-    deps:['rabbitChannel']
+    deps:['userChannel']
   };
-  this.rabbitChannel ={
+  this.userChannel ={
     init:true,
     require:'./rabbitChannel.js',
     config:{
+      user:'harm',
+      password:'harm',
+      host:'rabbitmq',
+      exchange:'userCollection',
+      exchangeType:'topic',
+      exchangeOptions:{durable: false}
     },
     deps:['amqplib']
   };
