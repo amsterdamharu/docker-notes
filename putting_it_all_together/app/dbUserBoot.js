@@ -3,8 +3,8 @@
 /* globals require: false */
 /* globals setTimeout: false */
 /* globals Buffer: false */
-var config = require('./initializer.js').get('app');
-  
+var config = require('./initializer.js').get('userDb');
+
 config.then(function resolve(deps){
 })
 .then(null, function reject(err){

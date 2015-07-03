@@ -1,5 +1,6 @@
 /* globals console: false */
 /* globals module: false */
+/* globals Buffer: false */
 var MongoDbHelper = function(db){
   this.db = db;
 };
@@ -29,18 +30,16 @@ module.exports.init = function(mongodb,config){
       var mongodb_host = config.MONGODB_HOST,
       mongodb_port = config.MONGODB_PORT,
       mongodb_db   = config.MONGODB_DB,
-      dbHelper = null,
       mongoClient;
       mongoClient = mongodb.MongoClient;
       mongoClient.connect('mongodb://'+mongodb_host+':'+
           mongodb_port+'/'+
           mongodb_db, function(err, db) {
         if(err) {reject(err);}
-        dbHelper = new MongoDbHelper(db);
         console.log('----mongodb conection:','mongodb://'+mongodb_host+':'+
           mongodb_port+'/'+
           mongodb_db);
-        resolve(dbHelper);
+        resolve(new MongoDbHelper(db));
       });      
     });
   });

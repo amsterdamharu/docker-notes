@@ -1,10 +1,24 @@
 /* globals console: false */
 /* globals module: false */
-module.exports.init = function(bcrypt,db,config){
+/* globals setTimeout: false */
+module.exports.init = function(bcrypt,userBuffer,config){
+
+
+//  setTimeout(function(){
+//    userBuffer.doIt({doWhat:'findOne',args:[{name:'harm'}]})
+//    .then(function(val){
+//      console.log('doIt resolved:',arguments);
+//    })
+//    .then(null, function(reject){
+//      console.log('doIt failed:',reject);
+//    });
+//  },200);
+
+  
+  
   return Promise.all([])
   .then(function(){
-    var USER_COLLECTION = config.USER_COLLECTION,
-    checkPassword = function(hash, password){
+    var checkPassword = function(hash, password){
       return new Promise(function(resolve, reject){
         bcrypt.compare(password, hash, function(err, res) {
           if(err){
@@ -15,8 +29,9 @@ module.exports.init = function(bcrypt,db,config){
       });
     },
     verifyCredentials = function(username,password,done){
-      db.findOne(USER_COLLECTION,{name:username})
+      return userBuffer.doIt({doWhat:'findOne',args:[{name:'harm'}]})
       .then(function(data){
+        data = JSON.parse(data);
         if(!data.length){
           done(null,null);return;
         }

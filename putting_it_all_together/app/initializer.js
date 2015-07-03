@@ -2,13 +2,13 @@
 /* globals module: false */
 /* globals require: false */
 var Config = function(){
+  var userBufferExpiration = 1000;
   var USER_COLLECTION = 'users';
   this.app = {
     init:false,
     config:{
-      exchange:'userCollection'      
     },
-    deps:['authProvider','userQue','userChannel','userBuffer']
+    deps:['authProvider']
   };
   this.authProvider = {
     init:true,
@@ -27,9 +27,8 @@ var Config = function(){
     init:true,
     require:'./authImplementor.js',
     config:{
-      USER_COLLECTION:USER_COLLECTION
     },
-    deps:['bcrypt','db']
+    deps:['bcrypt','userBuffer']
   };
   this.db ={
     init:true,
@@ -41,14 +40,37 @@ var Config = function(){
     },
     deps:['mongodb']
   };
-  this.userQue ={
+  this.userDb ={
+    init:true,
+    require:'./userDb.js',
+    config:{
+      USER_COLLECTION:USER_COLLECTION,
+      exchange:'userCollection',
+      consumeSettings:{noAck: true},
+      publishSettings:{expiration:userBufferExpiration+''},
+      responseTo:'response'
+    },
+    deps:['db','userRequestQue','userRespondQue']
+  };
+  this.userRequestQue ={
     init:true,
     require:'./rabbitQue.js',
     config:{
       exchange:'userCollection',
       queOptions:{exclusive:false},
-      topics:['warning','error'],
-      queueName:'userCollection'
+      topics:['request'],
+      queueName:'userRequest'
+    },
+    deps:['userChannel']
+  };
+  this.userRespondQue ={
+    init:true,
+    require:'./rabbitQue.js',
+    config:{
+      exchange:'userCollection',
+      queOptions:{exclusive:false},
+      topics:['response'],
+      queueName:'userRespond'
     },
     deps:['userChannel']
   };
@@ -69,11 +91,13 @@ var Config = function(){
     init:true,
     require:'./ps-to-promise.js',
     config:{
+      expiration:userBufferExpiration,
       exchange:'userCollection',
       consumeSettings:{noAck: true},
-      publishSettings:{expiration:'2000'}
+      publishSettings:{expiration:userBufferExpiration+''},
+      requestTo:'request'
     },
-    deps:['userQue','bufferFullChannel']
+    deps:['userRequestQue','userRespondQue','bufferFullChannel']
   };
   this.bufferFullChannel ={
     init:true,

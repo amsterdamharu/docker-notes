@@ -17,7 +17,7 @@ TODO:
 Installing
 ----------
 
-Create rabbitmq container:
+**Create rabbitmq container:**
 
 run rabbitmq
 
@@ -45,9 +45,24 @@ Open the management console with http://localhost:15672
 Add a user harm (password harm) and give it access.
 
 
-(TODO: how to install dependencies in node_modules)
+**Install dependencies of the app:**
 
-No installation required, build all the images with the Dockerfile provided. Images needed are
+You may need to run the squid container so npm can use it to fetch packages cached by squid.
+
+        docker run -it --rm \
+         -v $(pwd)/app:/app \
+         -w /app \
+         node:dev \
+         bash
+
+Then issue the following commands:
+
+        # following line is for npm to use the squid container
+        npm config set proxy http://172.17.42.1:3128/
+        npm install --verbose
+
+
+All the images with the Dockerfile provided. Images needed are
 
 - mongodb
 - redis
@@ -98,6 +113,9 @@ Run the container
          --name app \
          node:dev bash
 
+Still working on the code, to run the data module and the app module with nodemon you can run it like this:
+
+        nodemon --exec eval "node dbUserBoot.js & node app.js"
 
 
 #start mongodb-express (currently not working, need edit the config.js)
