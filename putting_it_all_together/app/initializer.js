@@ -8,7 +8,7 @@ var Config = function(){
     config:{
       exchange:'userCollection'      
     },
-    deps:['authProvider','userQue']
+    deps:['authProvider','userQue','userChannel','userBuffer']
   };
   this.authProvider = {
     init:true,
@@ -47,7 +47,8 @@ var Config = function(){
     config:{
       exchange:'userCollection',
       queOptions:{exclusive:false},
-      topics:['warning','error']
+      topics:['warning','error'],
+      queueName:'userCollection'
     },
     deps:['userChannel']
   };
@@ -59,6 +60,29 @@ var Config = function(){
       password:'harm',
       host:'rabbitmq',
       exchange:'userCollection',
+      exchangeType:'topic',
+      exchangeOptions:{durable: false}
+    },
+    deps:['amqplib']
+  };
+  this.userBuffer = {
+    init:true,
+    require:'./ps-to-promise.js',
+    config:{
+      exchange:'userCollection',
+      consumeSettings:{noAck: true},
+      publishSettings:{expiration:'2000'}
+    },
+    deps:['userQue','bufferFullChannel']
+  };
+  this.bufferFullChannel ={
+    init:true,
+    require:'./rabbitChannel.js',
+    config:{
+      user:'harm',
+      password:'harm',
+      host:'rabbitmq',
+      exchange:'bufferFull',
       exchangeType:'topic',
       exchangeOptions:{durable: false}
     },

@@ -17,6 +17,34 @@ TODO:
 Installing
 ----------
 
+Create rabbitmq container:
+
+run rabbitmq
+
+        docker run -it \
+         -v $(pwd)/../rabbitmq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config \
+         -v $(pwd)/../rabbitmq/log:/var/log/rabbitmq \
+         -p 15672:15672 \
+         --name rabbitmq \
+         rabbitmq:dev \
+         bash
+         
+In the console you can start the management plugin in the following way (server must be running):
+
+        rabbitmq-server & #wait for this to finish
+        
+when rabbbitmq server has started run the following:
+        
+        rabbitmq-plugins enable rabbitmq_management
+        rabbitmqctl add_user test test
+        rabbitmqctl set_user_tags test administrator
+        rabbitmqctl set_permissions -p / test ".*" ".*" ".*"
+
+Open the management console with http://localhost:15672
+
+Add a user harm (password harm) and give it access.
+
+
 (TODO: how to install dependencies in node_modules)
 
 No installation required, build all the images with the Dockerfile provided. Images needed are

@@ -6,20 +6,14 @@
 var config = require('./initializer.js').get('app');
   
 config.then(function resolve(deps){
-  setTimeout(function(){
-    function logMessage(msg) {
-      console.log(" Da subscriber received %s:'%s'",
-                  msg.fields.routingKey,
-                  msg.content.toString());
-    }
-    return deps.userQue.channel.consume(deps.userQue.que, logMessage, {noAck: true});      
-  },100);
-  setTimeout(function(){
-    console.log('time to publish something...');
-    deps.userQue.channel.publish(deps.config.exchange,'warning',new Buffer("Whaddup friend?"));
-    deps.userQue.channel.publish(deps.config.exchange,'error',new Buffer("Whaddup friend?"));
-    deps.userQue.channel.publish(deps.config.exchange,'nothing',new Buffer("Whaddup friend?"));
-  },500);
+  deps.userBuffer.doIt('warning','----message from user buffer')
+  .then(function(val){
+    console.log('doIt resolved:',arguments);
+  })
+  .then(null, function(reject){
+    console.log('doIt failed:',reject);
+  });
+
 })
 .then(null, function reject(err){
   console.log('Error in config get:',err);

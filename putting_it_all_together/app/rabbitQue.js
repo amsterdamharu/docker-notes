@@ -1,11 +1,11 @@
 /* globals console: false */
 /* globals module: false */
 /* globals process: false */
-var create = function(rabbitChannel,queOptions,topics,exchange,config){
+var create = function(rabbitChannel,queOptions,topics,exchange,queueName){
   var queue = false;
   return Promise.all([])
   .then(function(){
-    return rabbitChannel.assertQueue('', queOptions);
+    return rabbitChannel.assertQueue(queueName, queOptions);
   })
   .then(function(qok){
     queue = qok.queue;
@@ -20,5 +20,5 @@ var create = function(rabbitChannel,queOptions,topics,exchange,config){
 
 
 module.exports.init = function(rabbitChannel,config){
-  return create(rabbitChannel,config.queOptions,config.topics,config.exchange,config);
+  return create(rabbitChannel,config.queOptions,config.topics,config.exchange,config.queueName);
 };
