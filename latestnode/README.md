@@ -28,7 +28,7 @@ In the container you can run npm, your application is in /app so you can run (Do
          cd /app
          npm install --verbose
 
-In the current directory (not in build) run the following command (assuming you named the image node:dev):
+In the current directory (not in build) run the following command (assuming you named the image node:latest):
 
         docker run -t --rm \
          -v $(pwd)/app:/app \
